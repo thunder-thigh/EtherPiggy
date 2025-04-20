@@ -1,4 +1,5 @@
 # EtherPiggy
+![image](public/logo.png)
 
 A decentralized, goal-based ETH savings app deployed on **Arbitrum Sepolia**. Users can:
 - Set a public username
@@ -109,9 +110,6 @@ Use [https://faucet.quicknode.com/arbitrum/sepolia](https://faucet.quicknode.com
 ---
 
 ## 🙌 Credits
-Created by [Your Name]. Contract authored under `CodeStorm`.
+Created with love by CodeStorm. Special thanks to web3spell.
 
 ---
-
-## 📜 License
-MIT License. Feel free to build on top of this dApp.
