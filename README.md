@@ -1,4 +1,4 @@
-# Savings Vault dApp
+# EtherPiggy
 
 A decentralized, goal-based ETH savings app deployed on **Arbitrum Sepolia**. Users can:
 - Set a public username
