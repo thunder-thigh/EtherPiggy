@@ -1,5 +1,5 @@
 # EtherPiggy
-![image](public/logo.png)
+<img src="public/logo.jpg" alt="logo" width="400"/>
 
 A decentralized, goal-based ETH savings app deployed on **Arbitrum Sepolia**. Users can:
 - Set a public username
