@@ -29,7 +29,8 @@ Built with:
 
 ### 1. Clone the repo
 ```bash
-cd your-project-directory
+git clone https://github.com/thunder-thigh/EtherPiggy.git
+cd EtherPiggy
 ```
 
 ### 2. Install dependencies
