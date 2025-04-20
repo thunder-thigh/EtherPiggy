@@ -1,75 +1,117 @@
-![lOGO](public/logo.png)
+# Savings Vault dApp
 
-# 🐷 Ether-Piggy
+A decentralized, goal-based ETH savings app deployed on **Arbitrum Sepolia**. Users can:
+- Set a public username
+- Create multiple ETH savings goals
+- Deposit into goals until a target is reached
+- Withdraw once the goal is completed
 
-Ether-Piggy is a decentralized piggy bank application built on the Ethereum blockchain. It enables users to lock away funds until a specified unlock date, promoting savings and financial discipline through smart contracts.
+Built with:
+- Solidity Smart Contract (SavingsVault)
+- Hardhat for deployment
+- Ethers.js for frontend interaction
+- HTML/CSS + JavaScript frontend
+
+---
 
 ## 🚀 Features
-
-- 🔒 Lock Ether into your personal piggy bank
-- ⏳ Set a time-based unlock date
-- 🔓 Withdraw funds only after the unlock time has passed
-- 🧾 Transparent, secure, and verifiable on-chain
-
-## 🛠️ Getting Started
-
-### Prerequisites
-
-- Node.js
-- npm
-- Hardhat
-- MetaMask or any Web3-enabled wallet
-
-### Installation
-
-1. **Clone the repository**
-
-```bash
-git clone https://github.com/thunder-thigh/Ether-Piggy.git
-cd Ether-Piggy
-```
-
----
-## ⚙️ Getting Started
-
-### Prerequisites
-
-- Node.js & npm
-- MetaMask (or any Web3-enabled wallet)
-- Hardhat
-- Git
+- ✅ Wallet connect/disconnect (MetaMask)
+- ✅ Username management (stored on-chain)
+- ✅ Create ETH savings goals with name/description/target
+- ✅ Deposit ETH toward specific goals
+- ✅ Withdraw ETH once goal target is reached
+- ✅ Dashboard showing all user goals
 
 ---
 
-### 🧪 Smart Contract Setup
+## 🛠️ Setup & Run
 
-1. **Navigate to the contracts folder**
-
+### 1. Clone the repo
 ```bash
-cd smart-contracts
+cd your-project-directory
 ```
 
-2. **Install dependencies**
-
+### 2. Install dependencies
 ```bash
 npm install
 ```
 
-3. **Compile Contracts**
+### 3. Setup environment variables
+Create a `.env` file:
+```bash
+PRIVATE_KEY=your-wallet-private-key-here
+```
 
+> ⚠️ Never share this key. Keep `.env` in `.gitignore`.
+
+### 4. Compile the contract
 ```bash
 npx hardhat compile
 ```
 
-4. **Deploy to local or testnet**
-
+### 5. Deploy to Arbitrum Sepolia
 ```bash
-npx hardhat run script/deploy.js --network <network>
+npx hardhat run scripts/deploy.js --network arbitrumSepolia
 ```
-Replace <network> with localhost, sepolia, or your preferred network (ensure it's configured in hardhat.config.js).
+Copy the deployed contract address.
 
-5. **Install dependencies if needed**
+### 6. Update `frontend/app.js`
+Paste your contract address and ABI in:
+```js
+const CONTRACT_ADDRESS = "0xYourDeployedContractAddress";
+const ABI = [ /* Paste ABI here */ ];
+```
 
+### 7. Start the frontend
 ```bash
-npm install --save-dev hardhat @nomicfoundation/hardhat-toolbox dotenv
+cd frontend
+npx live-server
 ```
+Visit [http://127.0.0.1:8080](http://127.0.0.1:8080) or similar in your browser.
+
+---
+
+## 🧪 Interacting with the dApp
+
+- **Connect Wallet** → Connect MetaMask to Arbitrum Sepolia
+- **Set Username** → Opens modal to store name on-chain
+- **Create Goal** → Enter goal name, description, ETH target
+- **Deposit** → Enter goal ID and amount in ETH to fund goal
+- **Withdraw** → Button appears on completed goals to claim funds
+
+---
+
+## 🗂️ Directory Structure
+```
+├── contracts/
+│   └── SavingsVault.sol         # Smart contract
+├── scripts/
+│   └── deploy.js                # Deployment script
+├── frontend/
+│   ├── index.html               # UI layout
+│   ├── app.js                   # Ethers.js interaction
+│   └── SavingsVault_ABI.json    # ABI file
+├── .env                         # Private key (not committed)
+├── .gitignore                  # Ignore sensitive/built files
+├── hardhat.config.js           # Hardhat network setup
+└── package.json
+```
+
+---
+
+## ✅ Requirements
+- Node.js >= 16
+- MetaMask browser extension
+- ETH on Arbitrum Sepolia testnet
+
+Use [https://faucet.quicknode.com/arbitrum/sepolia](https://faucet.quicknode.com/arbitrum/sepolia) to get free test ETH.
+
+---
+
+## 🙌 Credits
+Created by [Your Name]. Contract authored under `CodeStorm`.
+
+---
+
+## 📜 License
+MIT License. Feel free to build on top of this dApp.
