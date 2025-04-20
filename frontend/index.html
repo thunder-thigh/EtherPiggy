@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Savings Vault DApp</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      padding: 2rem;
+    }
+    button {
+      padding: 10px 16px;
+      margin: 6px 4px;
+      border: none;
+      border-radius: 6px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    input {
+      margin: 4px;
+      padding: 10px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Savings Vault DApp</h2>
+
+  <div>
+    <button id="connectButton">Connect Wallet</button>
+    <button id="disconnectButton" style="display:none;">Disconnect</button>
+    <span id="walletAddress"></span>
+  </div>
+
+  <div>
+    <button id="openUsernameModalButton">Set / Change Username</button>
+  </div>
+
+  <!-- Username Modal -->
+  <div class="modal" id="usernameModal">
+    <div class="modal-content">
+      <h3>Set Username</h3>
+      <input id="usernameInput" placeholder="Enter username" />
+      <div style="margin-top: 10px;">
+        <button id="confirmUsernameButton">Confirm</button>
+        <button id="closeUsernameModalButton" style="background-color: #777;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <h3>Create New Goal</h3>
+  <input id="goalName" placeholder="Goal name" />
+  <input id="goalDesc" placeholder="Goal description" />
+  <input id="goalAmount" type="number" placeholder="Target (ETH)" />
+  <button id="createGoalButton">Create Goal</button>
+
+  <hr />
+
+  <h3>Deposit to Goal</h3>
+  <input id="depositGoalId" type="number" placeholder="Goal ID" />
+  <input id="depositAmount" type="number" placeholder="Amount (ETH)" />
+  <button id="depositButton">Deposit</button>
+
+  <hr />
+  <h3>Your Savings Goals</h3>
+  <div id="goalsList"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

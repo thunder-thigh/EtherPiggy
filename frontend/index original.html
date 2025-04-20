@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Piggy Bank</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.0/dist/ethers.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #8e44ad;
+      --secondary: #3498db;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --light: #f5f5f5;
+      --dark: #2c3e50;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: var(--dark);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px 0;
+      border-bottom: 5px solid var(--dark);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    
+    .logo-icon {
+      margin-right: 10px;
+      font-size: 2rem;
+    }
+    
+    .wallet-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    #walletAddress {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 25px;
+      margin-bottom: 20px;
+      transition: transform 0.2s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card h2 {
+      color: var(--primary);
+      margin-top: 0;
+      border-bottom: 2px solid var(--light);
+      padding-bottom: 10px;
+    }
+    
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      background-color: #7d3c98;
+      transform: translateY(-2px);
+    }
+    
+    #disconnectButton {
+      background-color: var(--danger);
+    }
+    
+    #disconnectButton:hover {
+      background-color: #c0392b;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+    
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+    
+    .goal-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .tab-button {
+      flex: 1;
+      padding: 12px;
+      background-color: var(--light);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    .tab-button.active {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .goal-list {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .goal-item {
+      background-color: var(--light);
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .goal-item.completed {
+      border-left-color: var(--success);
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background-color: #ddd;
+      border-radius: 5px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background-color: var(--secondary);
+      width: 0%;
+    }
+    
+    .goal-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    
+    .secondary-button {
+      background-color: var(--secondary);
+      font-size: 0.9rem;
+      padding: 8px 14px;
+    }
+    
+    .success-button {
+      background-color: var(--success);
+      font-size: 0.9rem;
+      padding: 8px 14px;
+    }
+    
+    #welcomeMessage {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <div class="logo">
+        <span class="logo-icon">🐷</span>
+        <span>Piggy Bank dApp</span>
+      </div>
+      <div class="wallet-controls">
+        <p id="walletAddress"></p>
+        <button id="connectButton">Connect Wallet</button>
+        <button id="disconnectButton" style="display: none;">Disconnect</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <main>
+      <!-- Left Column -->
+      <div class="control-section">
+        <!-- Username Card -->
+        <div class="card">
+          <h2 id="welcomeMessage">Welcome to Piggy Bank!</h2>
+          <p>Set your username to personalize your experience.</p>
+          <button id="openUsernameModalButton">Set / Change Username</button>
+        </div>
+        
+        <!-- Create Goal Card -->
+        <div class="card">
+          <h2>Create New Savings Goal</h2>
+          <input type="text" id="goalName" placeholder="What are you saving for?" />
+          <textarea id="goalDesc" placeholder="Describe your savings goal..."></textarea>
+          <input type="number" id="goalAmount" placeholder="Target Amount (ETH)" step="0.01" min="0" />
+          <button id="createGoalButton">Create Goal</button>
+        </div>
+      </div>
+      
+      <!-- Right Column -->
+      <div class="goals-section">
+        <div class="card">
+          <h2>Your Savings Goals</h2>
+          <div class="goal-tabs">
+            <button id="allGoalsTab" class="tab-button active">All Goals</button>
+            <button id="activeGoalsTab" class="tab-button">Active</button>
+            <button id="completedGoalsTab" class="tab-button">Completed</button>
+          </div>
+          
+          <div id="goalsList" class="goal-list">
+            <!-- Goals will be populated here by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Username Modal -->
+  <div id="usernameModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Set Your Username</h3>
+      <p>Choose a username that will be visible with your savings goals.</p>
+      <input type="text" id="usernameInput" placeholder="Enter username" />
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button id="closeUsernameModalButton" style="background-color: gray; flex: 1;">Cancel</button>
+        <button id="confirmUsernameButton" style="flex: 1;">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
